@@ -1,3 +1,11 @@
+const form = document.querySelector('form');
+
+let playerOne, playerTwo;
+
+const playerFactory = (name, symbol) => {
+    return { name, symbol };
+};
+
 const gameController = (() => {
     const winningMessage = document.querySelector('#winning-message');
     const winningMessageText = document.querySelector('#winning-message-text');
@@ -62,9 +70,9 @@ const gameController = (() => {
 
 const gameboard = (() => {
     const grids = document.querySelectorAll('.singleGrid')
-    // grids.forEach((grid) => {
-    //     grid.style.display = 'none';
-    // }) 
+    grids.forEach((grid) => {
+        grid.style.display = 'none';
+    }) 
     let gameArray = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
     grids.forEach((grid, index) => {
         grid.addEventListener('click', () => {
@@ -86,24 +94,17 @@ const gameboard = (() => {
     };    
 })();
 
-const playerFactory = (name, symbol) => {
-    return { name, symbol };
-};
-let playerOne = playerFactory('Cookie', 'x');
-let playerTwo = playerFactory('Brownie', 'o');
-
-// const form = document.querySelector('form');
-// form.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     let playerOneName = document.querySelector('#playerOne').value;
-//     let playerTwoName = document.querySelector('#playerTwo').value;
-//     playerOne = playerFactory(playerOneName, 'x');
-//     playerTwo = playerFactory(playerTwoName, 'o');
-//     form.style.display = 'none';
-//     gameboard.grids.forEach(grid => {
-//         grid.style.display = 'block';
-//     }) 
-// });
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let playerOneName = document.querySelector('#playerOne').value;
+    let playerTwoName = document.querySelector('#playerTwo').value;
+    playerOne = playerFactory(playerOneName, 'x');
+    playerTwo = playerFactory(playerTwoName, 'o');
+    form.style.display = 'none';
+    gameboard.grids.forEach(grid => {
+        grid.style.display = 'block';
+    }) 
+});
 
 
 
