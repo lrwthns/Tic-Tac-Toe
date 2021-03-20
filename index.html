@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Italianno&family=Open+Sans&family=Pinyon+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,8 +13,10 @@
         Tic Tac Toe
     </div>
     <form>
-        <input type="text" id="playerOne" placeholder="player one's name">
-        <input type="text" id="playerTwo" placeholder="player two's name">
+        <label for="playerOne">Player X:</label>
+        <input type="text" id="playerOne" spellcheck="false" required>
+        <label for="playerTwo">Player O:</label>
+        <input type="text" id="playerTwo" spellcheck="false" required>
         <button type="submit" id="submit">Submit</button>
     </form>
     <div id="display">
@@ -28,6 +30,7 @@
         <div class="singleGrid"></div>
         <div class="singleGrid"></div>
     </div>
+    <div id="turn-message"></div>
     <div id="winning-message">
         <div id="winning-message-text"></div>
         <button id="restart-button">restart</button>

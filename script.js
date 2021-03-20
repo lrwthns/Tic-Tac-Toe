@@ -7,12 +7,20 @@ const playerFactory = (name, symbol) => {
 };
 
 const gameController = (() => {
+    const turnMessage = document.querySelector('#turn-message');
     const winningMessage = document.querySelector('#winning-message');
     const winningMessageText = document.querySelector('#winning-message-text');
     const restart = document.querySelector('#restart-button');
     let round = 1;
     let gameIsOver = false; 
     let draw = false;
+    const changeTurnMessage = (roundValue) => { 
+        if (roundValue % 2 != 0) {
+            return turnMessage.textContent = `It's ${playerOne.name}'s turn!`;
+        } else {
+            return turnMessage.textContent = `It's ${playerTwo.name}'s turn!`;
+        }
+    }; 
     const winningCombinations = [
         [0, 1, 2],
         [3, 4, 5],
@@ -23,6 +31,7 @@ const gameController = (() => {
         [0, 4, 8],
         [2, 4, 6],
     ];
+    //logic that checks for the winner
     const checkWin = (arr) => {
         let win = winningCombinations.some(combination => {
             return combination.every(index => {
@@ -31,7 +40,8 @@ const gameController = (() => {
             combination.every(index => {
                 return arr[index] == playerTwo.symbol;
             }) ? true : false;
-        })  
+        })
+        //logic that checks if it's a draw  
         if (gameController.round == 10 && win == false) {
             win = true;
             draw = true;
@@ -40,8 +50,10 @@ const gameController = (() => {
         gameIsOver = win;
         endGame();  
     }
+    //shows winning message
     const endGame = () => { 
         if (gameIsOver == true) {
+            gameController.turnMessage.textContent = '';
             winningMessage.style.display = 'flex';
             if (draw == true) {
                 winningMessageText.textContent = 'It\'s a draw!';
@@ -52,6 +64,7 @@ const gameController = (() => {
             }
         }
     }
+    //when player clicks restart it goes here
     restart.addEventListener('click', () => {
         gameController.round = 1;
         gameIsOver = false;
@@ -61,8 +74,11 @@ const gameController = (() => {
             grid.textContent = ' ';
         })
         winningMessage.style.display = 'none';
+        gameController.turnMessage.textContent = `It's ${playerOne.name}'s turn!`;
     })  
     return {
+        turnMessage,
+        changeTurnMessage,
         round, 
         checkWin
     }
@@ -73,9 +89,11 @@ const gameboard = (() => {
     grids.forEach((grid) => {
         grid.style.display = 'none';
     }) 
+    //where the x's and o's are stored
     let gameArray = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
     grids.forEach((grid, index) => {
         grid.addEventListener('click', () => {
+            //this makes sure player can only put x's and o's on an empty grid
             if (gameboard.gameArray[index] == ' ') {
                 if (gameController.round % 2 != 0) {
                     gameboard.gameArray[index] = playerOne.symbol;
@@ -84,6 +102,7 @@ const gameboard = (() => {
                 }
                 grid.textContent = gameboard.gameArray[index];
                 gameController.round++;
+                gameController.changeTurnMessage(gameController.round);
                 gameController.checkWin(gameboard.gameArray);
             }
         })  
@@ -101,6 +120,7 @@ form.addEventListener('submit', (e) => {
     playerOne = playerFactory(playerOneName, 'x');
     playerTwo = playerFactory(playerTwoName, 'o');
     form.style.display = 'none';
+    gameController.turnMessage.textContent = `It's ${playerOne.name}'s turn!`;
     gameboard.grids.forEach(grid => {
         grid.style.display = 'block';
     }) 
